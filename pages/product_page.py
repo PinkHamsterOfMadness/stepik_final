@@ -5,15 +5,9 @@ import math
 
 class ProductPage(BasePage):
     def add_to_basket(self):
+        assert self.is_element_present(*ProductPageLocators.ADD_TO_BASKET_BUTTON), "NO add to basket button"
         add_button = self.browser.find_element(*ProductPageLocators.ADD_TO_BASKET_BUTTON)
         add_button.click()
-        self.solve_quiz_and_get_code()
-        message_success_text = self.browser.find_element(*ProductPageLocators.ALERT_NAME_PRODUCT).text
-        product_name = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT).text
-        assert message_success_text == product_name, "Product name in message is wrong"
-        message_price_text = self.browser.find_element(*ProductPageLocators.ALERT_PRICE_PRODUCT).text
-        product_price = self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT).text
-        assert message_price_text == product_price, "Product price in message is wrong"
 
     def solve_quiz_and_get_code(self):
         alert = self.browser.switch_to.alert
@@ -28,6 +22,18 @@ class ProductPage(BasePage):
             alert.accept()
         except NoAlertPresentException:
             print("No second alert presented")
+
+    def is_confirm_add_product_name(self):
+        assert self.is_element_present(*ProductPageLocators.ALERT_NAME_PRODUCT), "NO alert add product to basket name"
+        message_success_text = self.browser.find_element(*ProductPageLocators.ALERT_NAME_PRODUCT).text
+        product_name = self.browser.find_element(*ProductPageLocators.NAME_PRODUCT).text
+        assert message_success_text == product_name, "Product name in message is wrong"
+
+    def is_confirm_add_product_price(self):
+        assert self.is_element_present(*ProductPageLocators.ALERT_PRICE_PRODUCT), "NO alert add product to basket price"
+        message_price_text = self.browser.find_element(*ProductPageLocators.ALERT_PRICE_PRODUCT).text
+        product_price = self.browser.find_element(*ProductPageLocators.PRICE_PRODUCT).text
+        assert message_price_text == product_price, "Product price in message is wrong"
 
     def is_success_message_not_present(self):
         assert self.is_not_element_present(*ProductPageLocators.ALERT_NAME_PRODUCT)

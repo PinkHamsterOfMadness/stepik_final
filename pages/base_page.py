@@ -11,10 +11,12 @@ class BasePage():
         self.browser.implicitly_wait(timeout)
 
     def go_to_basket_page(self):
+        assert self.is_element_present(*BasePageLocators.BASKET_BUTTON), "NO basket button"
         link = self.browser.find_element(*BasePageLocators.BASKET_BUTTON)
         link.click()
 
     def go_to_login_page(self):
+        assert self.is_element_present(*BasePageLocators.LOGIN_LINK), "NO login link"
         link = self.browser.find_element(*BasePageLocators.LOGIN_LINK)
         link.click()
 
